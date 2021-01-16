@@ -1,8 +1,10 @@
 (ns clojure_exercise.tictactoe)
 
+;; Winning combinations
 (def win-sets
   [[0 1 2], [3 4 5], [6 7 8], [0 3 6], [1 4 7], [2 5 8], [0 4 8], [2 4 6]])
 
+;; private function to check if there is a winner
 (defn- winner-exists-on-spaces? [board spaces]
   (and
     (apply = (map #(board %) spaces))
@@ -19,10 +21,10 @@
 (defn- index-filter [pred coll]
   (for [[spot i] (indexed coll) :when (pred spot)] i))
 
-;;; public functions
-
+;; Draw the board
 (defn make-board [] (vec (repeat 9 " ")))
 
+;; Empty fields left?
 (defn empty-square? [square]
   (= " " square))
 
@@ -30,12 +32,16 @@
 
 (defn winner [board] (some #(winner-on-spaces board %) win-sets))
 
+;; Game over? Winner or Deuce
 (defn game-over? [board] (boolean (or (winner board) (full? board))))
 
+;; Place the move
 (defn place-on-board [board spot mark] (assoc board spot mark))
 
+;; Switch player
 (defn next-mark [mark] (if (= "X" mark) "O" "X"))
 
+;; Move is valid?
 (defn valid-move? [board move]
   (try (= (board move) " ")
     (catch Exception e false)))
@@ -48,10 +54,11 @@
 (defn empty-squares [board]
   (index-filter empty-square? board))
 
-;;; basic utility functions
+;; basic functions
 (defn include? [coll item]
   (some #(= item %) coll))
 
+;; Input from the player (Cast to Integer)
 (defn read-int []
   (try (Integer/parseInt (read-line))
     (catch NumberFormatException e nil)))
@@ -84,8 +91,6 @@
       (place-on-board board move (:player-mark player))
       (recur board player))))
 
-;;; public functions
-
 (defn mover [board mark]
   (user-message)
   (user-message (board-str board))
@@ -97,6 +102,7 @@
       (dec input)
       (recur board mark))))
 
+;; Setting the player-marks to X and O
 (def player-marks
   { 1 [{:player-mark "X" :mover mover} {:player-mark "O" :mover mover}]})
 
@@ -116,4 +122,5 @@
       (recur
         (get-valid-move board current-player) next-player current-player))))
 
+;; Execute the game
 (console-play)
