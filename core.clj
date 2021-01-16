@@ -1,4 +1,4 @@
-(ns clojure_exercise.core)
+(ns clojure_exercise.tictactoe)
 
 (def win-sets
   [[0 1 2], [3 4 5], [6 7 8], [0 3 6], [1 4 7], [2 5 8], [0 4 8], [2 4 6]])
@@ -72,8 +72,9 @@
 
 (defn- instructions-str []
   (str "\n"
-    "Welcome to Clojure-Tic-Tac-Toe!\n"
-    "Use the numbers below for moves:\n\n"
+    "Welcome to Clojure-Tic-Tac-Toe!\n\n"
+    "Instruction: \n"
+    "Use the numbers below for moves\n\n"
     (board-str (vec (range 1 10)))
     "\n"))
 
@@ -89,7 +90,7 @@
   (user-message)
   (user-message (board-str board))
   (user-message)
-  (user-prompt "Pick your space (1-9): ")
+  (user-prompt "Choose a number according to the field you want to play (1-9): ")
   (flush)
   (let [input (read-int)]
     (if (and input (include? (range 1 10) input))
