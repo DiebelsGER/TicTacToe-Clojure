@@ -1,3 +1,3 @@
 # TicTacToe-Clojure
 
-Tic tac Toe in Clojure
+Tic Tac Toe in Clojure
